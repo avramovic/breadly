@@ -1,3 +1,5 @@
 *
 !public/
+!public/users/
+!public/users/default.png
 !.gitignore
