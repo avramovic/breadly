@@ -9,6 +9,7 @@ Breadly allows you to perform BREAD operations on your relational database table
 * extremely robust & flexible (based on Laravel 5.5)
 * multiple [DB drivers](https://laravel.com/docs/5.5/database#introduction): mysql, postgre, sqlite, ...
 * web based admin panel to manage database structure and data (*B*rowse, *R*ead, *E*dit, *A*dd, *D*elete)
+* provides a base platform to integrate your app and your web site
 * simple HTTP API (in CSV format) to use from within your App Inventor apps (with ordinary Web component)
 * user registration system with roles and permissions out-of-the-box (JWT token)
 * file uploads from your app to your server or S3 storage
@@ -43,7 +44,7 @@ Then install dependencies with composer:
 
 Once dependencies are installed, point your web site root to the `public` subfolder of this project and simply navigate to `http://yourwebsite.com/install`, then follow on-screen instructions to set up a database connection.
 
-Admin user is automatically created with followinf credentials:
+Admin user is automatically created with following credentials:
 
 | E mail | Password |
 |--------|----------|
