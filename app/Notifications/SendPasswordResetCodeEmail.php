@@ -3,9 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class SendPasswordResetCodeEmail extends Notification
 {
@@ -52,7 +51,7 @@ class SendPasswordResetCodeEmail extends Notification
         return (new MailMessage)
             ->subject("Reset Password")
             ->line('You are receiving this email because we received a password reset request for your account.')
-            ->line('If '.env('APP_NAME', 'Beadly').' asks you for a password reset code, enter: '.$this->code)
+            ->line('If '.env('APP_NAME', 'Beadly').' asks you for a password reset code, use: '.$this->code)
             ->line('Otherwise, you can click the button below to reset your password.')
             ->action('Reset Password', url(config('app.url').route('password.reset', $this->token, false)))
             ->line('If you did not request a password reset, no further action is required.');
