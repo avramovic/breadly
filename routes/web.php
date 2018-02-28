@@ -15,16 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+Route::get('verify/{token}', ['as' => 'users.verify', 'uses' => 'UserController@verify']);
+
+
+Auth::routes();
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 
 
-Route::get('verify/{token}', ['as' => 'users.verify', 'uses' => 'UserController@verify']);
-
-Route::post('/test', function (\Illuminate\Http\Request $req) {
-    $data = file_get_contents('php://input');
-    \Log::alert($data);
-    file_put_contents('stagod.jpg', $data);
-});
