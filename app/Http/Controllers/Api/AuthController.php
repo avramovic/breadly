@@ -127,7 +127,7 @@ class AuthController extends ApiController
         }
 
         \DB::table('password_resets')
-            ->where('created_at', '<', Carbon::now()->subHour())
+            ->where('created_at', '<', Carbon::now()->subMinutes((int)config('auth.passwords.users.expire', 60)))
             ->delete();
 
         $token = Password::broker()->createToken($user);
