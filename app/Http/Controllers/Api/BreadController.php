@@ -174,7 +174,7 @@ class BreadController extends ApiController
         return $this->response($newRecordId);
     }
 
-    public function edit($table, Request $request)
+    public function edit($table, $id = null, Request $request)
     {
         $breadService = new BreadService($table);
 
@@ -219,7 +219,19 @@ class BreadController extends ApiController
             $data['updated_at'] = Carbon::now();
         }
 
-        $breadService->applyHttpScopes($query, $request);
+        if ($id) {
+            if ($breadService->hasColumn('guid')) {
+                $query->where($table.'guid', $id);
+            } else {
+                $query->where($table.'.id', (int)$id);
+            }
+        } else {
+            if (empty($request->query())) {
+                return $this->response("You must specify ID or query scope!", 422);
+            } else {
+                $breadService->applyHttpScopes($query, $request);
+            }
+        }
         $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
 
 
@@ -236,7 +248,7 @@ class BreadController extends ApiController
         return $this->response($updatedCount, 200);
     }
 
-    public function delete($table, Request $request)
+    public function delete($table, $id=null, Request $request)
     {
         $breadService = new BreadService($table);
 
@@ -260,7 +272,19 @@ class BreadController extends ApiController
             }
         }
 
-        $breadService->applyHttpScopes($query, $request);
+        if ($id) {
+            if ($breadService->hasColumn('guid')) {
+                $query->where($table.'guid', $id);
+            } else {
+                $query->where($table.'.id', (int)$id);
+            }
+        } else {
+            if (empty($request->query())) {
+                return $this->response("You must specify ID or query scope!", 422);
+            } else {
+                $breadService->applyHttpScopes($query, $request);
+            }
+        }
         $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
 
         if ($breadService->hasColumn('deleted_at')) {
@@ -277,10 +301,10 @@ class BreadController extends ApiController
             return \DB::table($table)->whereIn('id', $ids)->update(['deleted_at' => Carbon::now()]);
         }
 
-        return $this->forceDelete($table, $request);
+        return $this->forceDelete($table, $id, $request);
     }
 
-    public function forceDelete($table, Request $request)
+    public function forceDelete($table, $id=null, Request $request)
     {
         $breadService = new BreadService($table);
 
@@ -304,7 +328,19 @@ class BreadController extends ApiController
             }
         }
 
-        $breadService->applyHttpScopes($query, $request);
+        if ($id) {
+            if ($breadService->hasColumn('guid')) {
+                $query->where($table.'guid', $id);
+            } else {
+                $query->where($table.'.id', (int)$id);
+            }
+        } else {
+            if (empty($request->query())) {
+                return $this->response("You must specify ID or query scope!", 422);
+            } else {
+                $breadService->applyHttpScopes($query, $request);
+            }
+        }
         $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
 
         //delete uploaded files

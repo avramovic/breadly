@@ -24,7 +24,7 @@ class BreadService
             throw new ModelNotFoundException('Unknown data source: '.$table);
         }
 
-        $this->table = $table;
+        $this->table   = $table;
         $this->columns = \Schema::getColumnListing($this->table);
     }
 
@@ -331,14 +331,15 @@ class BreadService
 
     public function makeValidation($action)
     {
-        $columns = $this->getColumns();
+        $columns         = $this->getColumns();
         $validationRules = [];
+        $request         = app('request');
 
         foreach ($columns as $column) {
             $validation = $this->getOptionByAction($action, 'validation', $column);
 
             if ($validation) {
-                $validationRules[$column] = $validation;
+                $validationRules[$column] = str_replace(':id', $request->id, $validation);
             }
         }
 
@@ -358,7 +359,7 @@ class BreadService
 
     public function getUploadColumns()
     {
-        $columns = $this->getColumns();
+        $columns       = $this->getColumns();
         $uploadColumns = [];
 
         foreach ($columns as $column) {
