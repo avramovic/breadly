@@ -6,10 +6,11 @@ use App\Events\BreadUserRegistered;
 use App\Http\Requests\RegisterUserApiRequest;
 use App\Http\Requests\UpdateProfileApiRequest;
 use App\Models\User;
-use App\Notifications\SendActivationEmail;
+use App\Notifications\SendPasswordResetCodeEmail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Password;
 use Ramsey\Uuid\Uuid;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -85,9 +86,9 @@ class AuthController extends ApiController
             return $this->response("You are already registered.", 403);
         }
 
-        $data               = $request->all();
-        $data['password']   = bcrypt($data['password']);
-        $data['role_id']    = 2;
+        $data             = $request->all();
+        $data['password'] = bcrypt($data['password']);
+        $data['role_id']  = 2;
 
         if (setting('site.require_email_activation') == 1) {
             $data['verification_token'] = str_random(30);
@@ -115,5 +116,64 @@ class AuthController extends ApiController
 
         return $this->response('Error creating user!', 500);
 
+    }
+
+    public function sendResetPasswordEmail(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return $this->response("User with that email does not exist!", 422);
+        }
+
+        \DB::table('password_resets')
+            ->where('created_at', '<', Carbon::now()->subHour())
+            ->delete();
+
+        $token = Password::broker()->createToken($user);
+        $code  = str_pad(rand(1, 999999), 6, '0', STR_PAD_LEFT);
+
+        \DB::table('password_resets')
+            ->where('email', $request->email)
+            ->update([
+                'code' => $code,
+            ]);
+
+        $user->notify(new SendPasswordResetCodeEmail($token, $code));
+
+        return $this->response("A forgot password email has been sent!");
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $entry = \DB::table('password_resets')
+            ->where('email', $request->email)
+            ->first();
+
+        if (!$entry) {
+            return $this->response("Reset password request with that email does not exist!", 422);
+        }
+
+        if ($entry->code !== $request->code) {
+            return $this->response("Wrong password recovery code!", 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return $this->response("User with that email does not exist!", 422);
+        }
+
+        $user->update([
+            'password' => bcrypt($request->password),
+        ]);
+
+        \DB::table('password_resets')
+            ->where('email', $user->email)
+            ->where('code', $request->code)
+            ->limit(1)
+            ->delete();
+
+        return $this->response("New password is successfully set.");
     }
 }
