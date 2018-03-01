@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers\Api;
 
-use App\Breadly\Services\BreadService;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -35,14 +34,23 @@ class ApiController extends Controller
      *
      * @return Response
      */
-    protected function response($content, $status = 200)
+    protected function response($content, $status = 200, $headers = [])
     {
-        return response($content, $status)
+        $response = response($content, $status)
             ->header('Content-Type', 'text/plain')
             ->header('X-Request-Route', app('request')->route()->getName())
-            ->header('X-Request-Uri', app('request')->path())
-            ->header('X-Request-Tag', app('request')->header('X-Request-Tag'))
-            ;
+            ->header('X-Request-Uri', app('request')->path());
+
+        foreach ($headers as $key => $value) {
+            $response->header($key, $value);
+        }
+
+        $tag = app('request')->header('X-Request-Tag');
+        if (!empty($tag)) {
+            $response->header('X-Request-Tag', $tag);
+        }
+
+        return $response;
     }
 
     /**
@@ -63,13 +71,15 @@ class ApiController extends Controller
      */
     protected function getAuthUser()
     {
-        try {
-            $user = $this->getAuthUserOrFail();
-        } catch (JWTException $e) {
-            return null;
+        if (empty($this->user)) {
+            try {
+                $this->user = $this->getAuthUserOrFail();
+            } catch (JWTException $e) {
+                return null;
+            }
         }
 
-        return $user;
+        return $this->user;
     }
 
 }
