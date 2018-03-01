@@ -69,6 +69,10 @@ class AuthController extends ApiController
             unset($data['created_at']);
         }
 
+        if (isset($data['role_id'])) {
+            unset($data['role_id']);
+        }
+
         $data['updated_at'] = Carbon::now();
 
         $response = DB::table('users')
