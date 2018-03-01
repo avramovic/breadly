@@ -20,6 +20,9 @@ class UserController extends Controller
         $user->verification_token = null;
         $user->save();
 
-        dd("Your account is now verified!");
+        return view('pages.message', [
+            'title' => 'Nice.',
+            'message' => 'Your account is now verified!',
+        ]);
     }
 }
