@@ -248,7 +248,7 @@ class BreadController extends ApiController
         return $this->response($updatedCount, 200);
     }
 
-    public function delete($table, $id=null, Request $request)
+    public function delete($table, $id = null, Request $request)
     {
         $breadService = new BreadService($table);
 
@@ -304,7 +304,7 @@ class BreadController extends ApiController
         return $this->forceDelete($table, $id, $request);
     }
 
-    public function forceDelete($table, $id=null, Request $request)
+    public function forceDelete($table, $id = null, Request $request)
     {
         $breadService = new BreadService($table);
 
@@ -355,7 +355,10 @@ class BreadController extends ApiController
             event(new BreadDataDeleted($table, $entity, false, $this->user));
 
             foreach ($entity as $field => $value) {
-                if (in_array($field, $breadService->getUploadColumns()) && !empty($value) && \Storage::disk($storageDisk)->exists($value)) {
+                if (in_array($field, $breadService->getUploadColumns())
+                    && !empty($value)
+                    && \Storage::disk($storageDisk)->exists($value)
+                    && !$breadService->isDefaultColumnValue($field, $value)) {
                     \Storage::disk($storageDisk)->delete($value);
                 }
             }
@@ -543,7 +546,9 @@ class BreadController extends ApiController
         }
 
         //delete old file (if any)
-        if (!empty($toUpdate->{$field}) && \Storage::disk($storageDisk)->exists($toUpdate->{$field})) {
+        if (!empty($toUpdate->{$field})
+            && \Storage::disk($storageDisk)->exists($toUpdate->{$field})
+            && !$breadService->isDefaultColumnValue($field, $toUpdate->{$field})) {
             \Storage::disk($storageDisk)->delete($toUpdate->{$field});
         }
 

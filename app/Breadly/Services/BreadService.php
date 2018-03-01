@@ -371,5 +371,16 @@ class BreadService
         return $uploadColumns;
     }
 
+    public function getDefaultColumnValue($column)
+    {
+        $query = 'SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "'.$this->table.'" AND COLUMN_NAME = "'.$column.'"';
+        return array_pluck(\DB::select($query), 'COLUMN_DEFAULT')[0];
+    }
+
+    public function isDefaultColumnValue($column, $value)
+    {
+        return $value == $this->getDefaultColumnValue($column);
+    }
+
 
 }
