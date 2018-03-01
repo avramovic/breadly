@@ -53,11 +53,11 @@ class BreadService
     }
 
 
-    public function applyHttpScopes(&$query, Request $request)
+    public function applyHttpScopes(&$query, Request $request, $paginate = false)
     {
         $query->where(function () use ($query, $request) {
 
-            foreach (with(collect($request->query()))->except(['bindings', 'withDeleted', 'deletedOnly', 'with']) as $command => $params) {
+            foreach (with(collect($request->query()))->except(['bindings', 'withDeleted', 'deletedOnly', 'with', 'page', 'perPage']) as $command => $params) {
                 $command = strtolower($command);
 
                 if ($command == 'where') {
@@ -123,6 +123,10 @@ class BreadService
             }
 
         });
+
+        if ($paginate) {
+            $query->paginate(isset($request->perPage) ? (int)$request->perPage : setting('site.perPage', 20));
+        }
 
         return $query;
     }

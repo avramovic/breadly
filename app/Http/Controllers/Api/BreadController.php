@@ -43,8 +43,30 @@ class BreadController extends ApiController
         $select = $breadService->getReadableColumns(static::ACTION_BROWSE, $this->user);
         $query->select($breadService->processSelects($select));
 
-        $breadService->applyHttpScopes($query, $request);
-        $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
+        $customHeaders = [];
+
+        if (isset($request->page) || isset($request->perPage)) {
+            $countQuery = clone $query;
+            $page       = (int)$request->page ?: 1;
+            $perPage    = (int)$request->perPage ?: 20;
+
+            $breadService->applyHttpScopes($countQuery, $request, false);
+            $breadService->applySoftDeleteChecks($countQuery, $request->withDeleted, $request->deletedOnly);
+
+            $breadService->applyHttpScopes($query, $request, true);
+            $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
+
+            $total      = $countQuery->count();
+            $totalPages = (int)ceil($total / $perPage);
+
+            $customHeaders['X-Pagination-CurrentPage'] = $page;
+            $customHeaders['X-Pagination-PerPage']     = $perPage;
+            $customHeaders['X-Pagination-Total']       = $total;
+            $customHeaders['X-Pagination-TotalPages']  = $totalPages;
+        } else {
+            $breadService->applyHttpScopes($query, $request, false);
+            $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
+        }
 
         //process joins
         if (isset($request->with)) {
@@ -62,7 +84,7 @@ class BreadController extends ApiController
             }
         }
 
-        return $this->response($breadService->format($query->get()));
+        return $this->response($breadService->format($query->get()), 200, $customHeaders);
     }
 
     public function read($table, $id, Request $request)
