@@ -3,7 +3,9 @@
 use App\Breadly\Services\BreadService;
 use App\Events\BreadProfileUpdated;
 use App\Events\BreadUserRegistered;
+use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\RegisterUserApiRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdateProfileApiRequest;
 use App\Models\User;
 use App\Notifications\SendPasswordResetCodeEmail;
@@ -118,13 +120,13 @@ class AuthController extends ApiController
 
     }
 
-    public function sendResetPasswordEmail(Request $request)
+    public function sendResetPasswordEmail(ForgotPasswordRequest $request)
     {
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user) {
-            return $this->response("User with that email does not exist!", 422);
+        if ($this->getAuthUser()) {
+            return $this->response("You are logged in.", 403);
         }
+
+        $user = User::where('email', $request->email)->first();
 
         \DB::table('password_resets')
             ->where('created_at', '<', Carbon::now()->subMinutes((int)config('auth.passwords.users.expire', 60)))
@@ -144,8 +146,12 @@ class AuthController extends ApiController
         return $this->response("A forgot password email has been sent!");
     }
 
-    public function resetPassword(Request $request)
+    public function resetPassword(ResetPasswordRequest $request)
     {
+        if ($this->getAuthUser()) {
+            return $this->response("You are logged in.", 403);
+        }
+
         $entry = \DB::table('password_resets')
             ->where('email', $request->email)
             ->first();
@@ -159,10 +165,6 @@ class AuthController extends ApiController
         }
 
         $user = User::where('email', $request->email)->first();
-
-        if (!$user) {
-            return $this->response("User with that email does not exist!", 422);
-        }
 
         $user->update([
             'password' => bcrypt($request->password),
