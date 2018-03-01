@@ -21,7 +21,7 @@ Breadly allows you to perform BREAD operations on your relational database table
 
 Since it is based on Laravel, it has pretty much the same [requirements](https://laravel.com/docs/5.5/installation#server-requirements):
 
-* PHP >= 7.0.0
+* PHP >= 7.1.0
 * OpenSSL PHP Extension
 * PDO PHP Extension
 * Mbstring PHP Extension
