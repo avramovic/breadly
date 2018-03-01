@@ -141,6 +141,7 @@ class AuthController extends ApiController
                 'code' => $code,
             ]);
 
+        //@TODO: make event
         $user->notify(new SendPasswordResetCodeEmail($token, $code));
 
         return $this->response("A forgot password email has been sent!");

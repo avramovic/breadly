@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/', function () {
+    return 'name,'.json_encode(config('app.name')).',version,'.json_encode(config('app.version'));
+});
+
 Route::post('auth/login', ['as' => 'auth.login', 'uses' => 'Api\\AuthController@authenticate']);
 Route::get('auth/profile', ['as' => 'auth.profile', 'uses' => 'Api\\AuthController@profile']);
 Route::post('auth/profile', ['as' => 'auth.profile.update', 'uses' => 'Api\\AuthController@updateProfile']);
