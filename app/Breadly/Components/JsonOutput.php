@@ -111,18 +111,16 @@ class JsonOutput
     }
 
 
-    public static function httpResponse($content, $status = 200, $extras = [])
+    public static function httpResponse($content, $message = null, $status = 200, $extras = [])
     {
         $jsonOut = null;
 
         if ($status >= 400) {
             $jsonOut = JsonOutput::make()->errors($content)->code($status);
         } elseif ($content instanceof Collection || (is_array($content) && !Arr::isAssoc($content))) {
-            $jsonOut = JsonOutput::make()->collection($content)->code($status);
-        } elseif (is_object($content) || (is_array($content) && Arr::isAssoc($content))) {
-            $jsonOut = JsonOutput::make()->object($content)->code($status);
+            $jsonOut = JsonOutput::make()->collection($content)->message($message)->code($status);
         } else {
-            $jsonOut = JsonOutput::make()->object($content)->code($status);
+            $jsonOut = JsonOutput::make()->object($content)->message($message)->code($status);
         }
 
         foreach ($extras as $key => $value) {
@@ -130,7 +128,12 @@ class JsonOutput
         }
 
         $routeName = app('request')->route()->getName();
-        $routePath = app('request')->path();
+        $routePath = str_replace('api/', '', app('request')->path());
+
+        $jsonOut->addExtra('route', [
+            'name' => $routeName,
+            'path' => $routePath,
+        ]);
 
         $tag = app('request')->header('X-Request-Tag');
         if (!empty($tag)) {

@@ -30,20 +30,26 @@ class ApiController extends Controller
     /**
      *
      *
-     * @param mixed $content
-     * @param int    $status
-     * @param array  $extras
+     * @param mixed       $content
+     * @param int         $status
+     * @param array       $extras
+     * @param null|string $message
      *
      * @return Response
      */
-    public function response($content, $status = 200, $extras = [])
+    public function response($content, $message = null, $status = 200, $extras = [])
     {
-        return JsonOutput::httpResponse($content, $status, $extras);
+        return JsonOutput::httpResponse($content, $message, $status, $extras);
+    }
+
+    public function message($message, $status = 200, $extras = [])
+    {
+        return JsonOutput::httpResponse(null, $message, $status, $extras);
     }
 
     public function error($error, $status = 500)
     {
-        return JsonOutput::httpResponse($error, $status);
+        return JsonOutput::httpResponse(null, $error, $status);
     }
 
     /**

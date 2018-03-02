@@ -44,7 +44,7 @@ class AuthController extends ApiController
         }
 
         // all good so return the token
-        return $this->response($token);
+        return $this->response($token, "Log in successful.");
     }
 
     public function profile()
@@ -83,7 +83,8 @@ class AuthController extends ApiController
         event(new BreadProfileUpdated($user));
 
         return $this->response(
-            $response
+            $response,
+            "Profile has been updated successfully."
         );
     }
 
@@ -115,7 +116,8 @@ class AuthController extends ApiController
         if ($newUser) {
             event(new BreadUserRegistered($newUser));
             return $this->response(
-                $newUser->toArray()
+                $newUser->toArray(),
+                "User has been registered successfully."
             );
         }
 
@@ -147,7 +149,7 @@ class AuthController extends ApiController
         //@TODO: make event
         $user->notify(new SendPasswordResetCodeEmail($token, $code));
 
-        return $this->response("A forgot password email has been sent!");
+        return $this->message("A forgot password email has been sent!");
     }
 
     public function resetPassword(ResetPasswordRequest $request)
@@ -180,6 +182,6 @@ class AuthController extends ApiController
             ->limit(1)
             ->delete();
 
-        return $this->response("New password is successfully set.");
+        return $this->message("New password is successfully set.");
     }
 }

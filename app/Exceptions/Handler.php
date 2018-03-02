@@ -64,18 +64,18 @@ class Handler extends ExceptionHandler
     {
         \Log::error($exception);
         if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-            $response = JsonOutput::httpResponse("Token expired.", 401);
+            $response = JsonOutput::httpResponse("Token expired.", null, 401);
         } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-            $response = JsonOutput::httpResponse("Invalid token.", 401);
+            $response = JsonOutput::httpResponse("Invalid token.", null, 401);
         } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\JWTException) {
-            $response = JsonOutput::httpResponse("Authentication error.", 401);
+            $response = JsonOutput::httpResponse("Authentication error.", null, 401);
         } else if ($exception instanceof ModelNotFoundException) {
-            $response = JsonOutput::httpResponse($exception->getMessage(), 404);
+            $response = JsonOutput::httpResponse($exception->getMessage(), null, 404);
         } elseif ($exception instanceof ValidationException) {
             $errorMessages = $exception->validator->errors()->all();
-            $response = JsonOutput::httpResponse($errorMessages[0], 422);
+            $response = JsonOutput::httpResponse($errorMessages[0], null, 422);
         } else {
-            $response = JsonOutput::httpResponse($exception->getMessage(), 500);
+            $response = JsonOutput::httpResponse($exception->getMessage(), null, 500);
         }
 
         return $response;

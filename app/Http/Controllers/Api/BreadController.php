@@ -85,7 +85,7 @@ class BreadController extends ApiController
             }
         }
 
-        return $this->response($query->get(), 200, $extras);
+        return $this->response($query->get(), null,200, $extras);
     }
 
     public function read($table, $id, Request $request)
@@ -141,7 +141,7 @@ class BreadController extends ApiController
 
         $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
 
-        return $this->response($query->first());
+        return $this->response($query->firstOrFail());
     }
 
     public function add($table, Request $request)
@@ -194,7 +194,7 @@ class BreadController extends ApiController
 
         event(new BreadDataAdded($table, $newRecordId, $data, $this->user));
 
-        return $this->response($newRecordId);
+        return $this->response($newRecordId, "A new entry has been added successfully.");
     }
 
     public function edit($table, $id = null, Request $request)
@@ -268,7 +268,7 @@ class BreadController extends ApiController
         }
 
         $updatedCount = \DB::table($table)->whereIn('id', $ids)->update($data);
-        return $this->response($updatedCount, 200);
+        return $this->response($updatedCount, "Updated successfully.");
     }
 
     public function delete($table, $id = null, Request $request)
@@ -387,7 +387,7 @@ class BreadController extends ApiController
             }
         }
 
-        return $this->response(\DB::table($table)->whereIn('id', $ids)->delete());
+        return $this->response(\DB::table($table)->whereIn('id', $ids)->delete(), "Deleted successfully.");
     }
 
     public function upload($table, $field, $id, Request $request)
@@ -586,6 +586,6 @@ class BreadController extends ApiController
 
         event(new BreadFileUploaded($table, $field, $id, base64_encode($uploadedFile), $this->user));
 
-        return $this->response($filePath);
+        return $this->response($filePath, "File uploaded successfully.");
     }
 }
