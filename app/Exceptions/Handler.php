@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -72,8 +71,8 @@ class Handler extends ExceptionHandler
         } else if ($exception instanceof ModelNotFoundException) {
             $response = response($exception->getMessage(), 404);
         } elseif ($exception instanceof ValidationException) {
-            $errorMessages = array_map('json_encode', $exception->validator->errors()->all());
-            $response = response(implode(',', $errorMessages), 422);
+            $errorMessages = $exception->validator->errors()->all();
+            $response = response($errorMessages[0], 422);
         } else {
             $response = response($exception->getMessage(), 500);
         }
