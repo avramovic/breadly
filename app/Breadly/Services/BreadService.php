@@ -341,9 +341,19 @@ class BreadService
             ->where('column_name', $column)
             ->first();
 
-//        dd($query);
-//        $query = 'SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "'.$this->table.'" AND COLUMN_NAME = "'.$column.'"';
-        return !is_null($query) ? $query->column_default : null;
+        if (!$query) {
+            return null;
+        }
+
+        $postgre = config('database.default', 'mysql') == 'pgsql';
+
+        if (!$postgre) {
+            return $query->column_default;
+        }
+
+        $elements = explode('::', $query->column_default);
+
+        return trim(array_shift($elements), "'");
     }
 
     public function isDefaultColumnValue($column, $value)
