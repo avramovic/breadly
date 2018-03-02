@@ -58,10 +58,6 @@ class JsonOutput
             $this->code($code);
         }
 
-        if (empty($this->response->result)) {
-            $this->response->result = $message;
-        }
-
         return $this;
     }
 
@@ -75,9 +71,6 @@ class JsonOutput
     public function object($object)
     {
         $this->response->result = $object;
-        if (is_string($object)) {
-            $this->response->message = $object;
-        }
 
         return $this;
     }

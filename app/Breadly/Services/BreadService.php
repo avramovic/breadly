@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use TCG\Voyager\Models\DataType;
 
 class BreadService
@@ -142,41 +141,6 @@ class BreadService
                 $query->whereNotNull($this->table.'.deleted_at');
             }
         }
-    }
-
-    public function format($data)
-    {
-        if ($data instanceof Collection) {
-            return $this->formatCollection($data);
-        } else {
-            return $this->formatEntity($data);
-        }
-    }
-
-    protected function formatEntity($entity)
-    {
-        $data = [];
-
-        if ($entity == null) {
-            return null;
-        }
-
-        foreach ($entity as $field => $value) {
-            $data[] = is_numeric($value) ? $value : json_encode(str_replace(["\r", "\n"], '', $value));
-        }
-
-        return implode(',', $data);
-    }
-
-    protected function formatCollection(Collection $collection)
-    {
-        $data = [];
-
-        foreach ($collection as $entity) {
-            $data[] = $this->formatEntity($entity);
-        }
-
-        return implode(PHP_EOL, $data);
     }
 
     protected function parseSqlValue($value)
