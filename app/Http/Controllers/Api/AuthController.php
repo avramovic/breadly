@@ -21,6 +21,10 @@ class AuthController extends ApiController
 {
     public function authenticate(Request $request)
     {
+        if ($this->user) {
+            return $this->response("You are already logged in.", 403);
+        }
+
         // grab credentials from the request
         $credentials = $request->only('email', 'password');
 
@@ -127,7 +131,7 @@ class AuthController extends ApiController
     public function sendResetPasswordEmail(ForgotPasswordRequest $request)
     {
         if ($this->getAuthUser()) {
-            return $this->response("You are logged in.", 403);
+            return $this->response("You are already logged in.", 403);
         }
 
         $user = User::where('email', $request->email)->first();
@@ -154,7 +158,7 @@ class AuthController extends ApiController
     public function resetPassword(ResetPasswordRequest $request)
     {
         if ($this->getAuthUser()) {
-            return $this->response("You are logged in.", 403);
+            return $this->response("You are already logged in.", 403);
         }
 
         $entry = \DB::table('password_resets')
