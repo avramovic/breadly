@@ -335,8 +335,15 @@ class BreadService
 
     public function getDefaultColumnValue($column)
     {
-        $query = 'SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "'.$this->table.'" AND COLUMN_NAME = "'.$column.'"';
-        return array_pluck(\DB::select($query), 'COLUMN_DEFAULT')[0];
+        $query = \DB::table('information_schema.columns')
+            ->select(['column_default'])
+            ->where('table_name', $this->table)
+            ->where('column_name', $column)
+            ->first();
+
+//        dd($query);
+//        $query = 'SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = "'.$this->table.'" AND COLUMN_NAME = "'.$column.'"';
+        return !is_null($query) ? $query->column_default : null;
     }
 
     public function isDefaultColumnValue($column, $value)
