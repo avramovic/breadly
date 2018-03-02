@@ -85,7 +85,7 @@ class BreadController extends ApiController
             }
         }
 
-        return $this->response($query->get(), null,200, $extras);
+        return $this->response($query->get(), null, 200, $extras);
     }
 
     public function read($table, $id, Request $request)
@@ -141,7 +141,14 @@ class BreadController extends ApiController
 
         $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
 
-        return $this->response($query->firstOrFail());
+        $item = $query->first();
+
+        if ($item) {
+            return $this->response($item);
+        } else {
+            return $this->error("Entity not found!", 404);
+        }
+
     }
 
     public function add($table, Request $request)
@@ -259,6 +266,11 @@ class BreadController extends ApiController
 
 
         $toUpdate = $query->get();
+
+        if ($toUpdate->count() < 1) {
+            return $this->error("Entity not found.", 404);
+        }
+
         $ids      = [];
 
         foreach ($toUpdate as $row) {
@@ -314,6 +326,10 @@ class BreadController extends ApiController
 
             $toDelete = $query->get();
             $ids      = [];
+
+            if ($toDelete->count() < 1) {
+                return $this->error("Entity not found.", 404);
+            }
 
             foreach ($toDelete as $entity) {
                 $ids[] = $entity->id;
@@ -371,6 +387,9 @@ class BreadController extends ApiController
         $ids         = [];
         $storageDisk = setting('site.upload_disk', 'public');
 
+        if ($toDelete->count() < 1) {
+            return $this->error("Entity not found.", 404);
+        }
 
         foreach ($toDelete as $entity) {
             $ids[] = $entity->id;
