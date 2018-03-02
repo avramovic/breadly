@@ -162,7 +162,7 @@ class BreadService
         }
 
         foreach ($entity as $field => $value) {
-            $data[] = '('.($field).' '.(is_numeric($value) ? $value : json_encode(str_replace(["\r", "\n"], '', $value))).')';
+            $data[] = '('.($field).' '.(is_numeric($value) ? $value : (str_replace(["\r", "\n"], '', $value))).')';
         }
 
         return '"'.implode('","', $data).'"';
