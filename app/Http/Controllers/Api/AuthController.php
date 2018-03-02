@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers\Api;
 
-use App\Breadly\Services\BreadService;
 use App\Events\BreadProfileUpdated;
 use App\Events\BreadUserRegistered;
 use App\Http\Requests\ForgotPasswordRequest;
@@ -22,7 +21,7 @@ class AuthController extends ApiController
     public function authenticate(Request $request)
     {
         if ($this->user) {
-            return $this->response("You are already logged in.", 403);
+            return $this->error("You are already logged in.", 403);
         }
 
         // grab credentials from the request
@@ -31,7 +30,7 @@ class AuthController extends ApiController
         try {
             // attempt to verify the credentials and create a token for the user
             if (!$token = JWTAuth::attempt($credentials)) {
-                return $this->response("Invalid credentials", 401);
+                return $this->error("Invalid credentials", 401);
             }
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
@@ -41,7 +40,7 @@ class AuthController extends ApiController
         $user = JWTAuth::setToken($token)->authenticate();
 
         if (!$user->is_verified) {
-            return $this->response("User not activated", 401);
+            return $this->error("User not activated", 401);
         }
 
         // all good so return the token
@@ -50,10 +49,8 @@ class AuthController extends ApiController
 
     public function profile()
     {
-        $user         = $this->getAuthUserOrFail();
-        $breadService = new BreadService('users');
-
-        return $this->response($breadService->format($user ? $user->toArray() : null));
+        $user = $this->getAuthUserOrFail();
+        return $this->response($user->toArray());
     }
 
     public function updateProfile(UpdateProfileApiRequest $request)
@@ -93,7 +90,7 @@ class AuthController extends ApiController
     public function register(RegisterUserApiRequest $request)
     {
         if ($this->user) {
-            return $this->response("You are already registered.", 403);
+            return $this->error("You are already registered.", 403);
         }
 
         $data             = $request->all();
@@ -115,23 +112,21 @@ class AuthController extends ApiController
         /** @var User $newUser */
         $newUser = User::create($data);
 
-        $breadService = new BreadService('users');
-
         if ($newUser) {
             event(new BreadUserRegistered($newUser));
             return $this->response(
-                $breadService->format($newUser->getAttributes())
+                $newUser->toArray()
             );
         }
 
-        return $this->response('Error creating user!', 500);
+        return $this->error('Error creating user!', 500);
 
     }
 
     public function sendResetPasswordEmail(ForgotPasswordRequest $request)
     {
         if ($this->getAuthUser()) {
-            return $this->response("You are already logged in.", 403);
+            return $this->error("You are already logged in.", 403);
         }
 
         $user = User::where('email', $request->email)->first();
@@ -158,7 +153,7 @@ class AuthController extends ApiController
     public function resetPassword(ResetPasswordRequest $request)
     {
         if ($this->getAuthUser()) {
-            return $this->response("You are already logged in.", 403);
+            return $this->error("You are already logged in.", 403);
         }
 
         $entry = \DB::table('password_resets')
@@ -166,11 +161,11 @@ class AuthController extends ApiController
             ->first();
 
         if (!$entry) {
-            return $this->response("Reset password request with that email does not exist!", 422);
+            return $this->error("Reset password request with that email does not exist!", 422);
         }
 
         if ($entry->code !== $request->code) {
-            return $this->response("Wrong password recovery code!", 422);
+            return $this->error("Wrong password recovery code!", 422);
         }
 
         $user = User::where('email', $request->email)->first();

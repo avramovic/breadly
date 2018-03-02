@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Breadly\Components\JsonOutput;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -63,25 +64,20 @@ class Handler extends ExceptionHandler
     {
         \Log::error($exception);
         if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-            $response = response("Token expired.", 401);
+            $response = JsonOutput::httpResponse("Token expired.", 401);
         } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-            $response = response("Invalid token.", 401);
+            $response = JsonOutput::httpResponse("Invalid token.", 401);
         } else if ($exception instanceof \Tymon\JWTAuth\Exceptions\JWTException) {
-            $response = response("Authentication error.", 401);
+            $response = JsonOutput::httpResponse("Authentication error.", 401);
         } else if ($exception instanceof ModelNotFoundException) {
-            $response = response($exception->getMessage(), 404);
+            $response = JsonOutput::httpResponse($exception->getMessage(), 404);
         } elseif ($exception instanceof ValidationException) {
             $errorMessages = $exception->validator->errors()->all();
-            $response = response($errorMessages[0], 422);
+            $response = JsonOutput::httpResponse($errorMessages[0], 422);
         } else {
-            $response = response($exception->getMessage(), 500);
+            $response = JsonOutput::httpResponse($exception->getMessage(), 500);
         }
 
-        return $response
-            ->header('Content-Type', 'text/plain')
-            ->header('X-Request-Route', app('request')->route()->getName())
-            ->header('X-Request-Uri', app('request')->path())
-            ->header('X-Request-Tag', app('request')->header('X-Request-Tag'))
-            ;
+        return $response;
     }
 }

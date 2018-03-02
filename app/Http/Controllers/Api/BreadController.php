@@ -20,7 +20,7 @@ class BreadController extends ApiController
 
         //check if table is hidden
         if ($breadService->isHiddenTable()) {
-            $this->response('Unknown data source: '.$table, 404);
+            $this->error('Unknown data source: '.$table, 404);
         }
 
         //create query builder
@@ -31,11 +31,11 @@ class BreadController extends ApiController
 
         if (!$canBrowse) {
             if (!$this->user) {
-                return $this->response('Not allowed to browse '.$table, 401);
+                return $this->error('Not allowed to browse '.$table, 401);
             } elseif ($breadService->hasColumn('user_id')) {
                 $query->where($table.'.user_id', $this->user->id);
             } else {
-                return $this->response('Not allowed to browse '.$table, 403);
+                return $this->error('Not allowed to browse '.$table, 403);
             }
         }
 
@@ -43,7 +43,7 @@ class BreadController extends ApiController
         $select = $breadService->getReadableColumns(static::ACTION_BROWSE, $this->user);
         $query->select($breadService->processSelects($select));
 
-        $customHeaders = [];
+        $extras = [];
 
         if (isset($request->page) || isset($request->perPage)) {
             $countQuery = clone $query;
@@ -59,10 +59,11 @@ class BreadController extends ApiController
             $total      = $countQuery->count();
             $totalPages = (int)ceil($total / $perPage);
 
-            $customHeaders['X-Pagination-CurrentPage'] = $page;
-            $customHeaders['X-Pagination-PerPage']     = $perPage;
-            $customHeaders['X-Pagination-Total']       = $total;
-            $customHeaders['X-Pagination-TotalPages']  = $totalPages;
+            $extras['pagination']                 = [];
+            $extras['pagination']['current_page'] = $page;
+            $extras['pagination']['total_pages']  = $totalPages;
+            $extras['pagination']['per_page']     = $perPage;
+            $extras['pagination']['total_rows']   = $total;
         } else {
             $breadService->applyHttpScopes($query, $request, false);
             $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
@@ -84,7 +85,7 @@ class BreadController extends ApiController
             }
         }
 
-        return $this->response($breadService->format($query->get()), 200, $customHeaders);
+        return $this->response($query->get(), 200, $extras);
     }
 
     public function read($table, $id, Request $request)
@@ -93,7 +94,7 @@ class BreadController extends ApiController
 
         //check if table is hidden
         if ($breadService->isHiddenTable()) {
-            $this->response('Unknown data source: '.$table, 404);
+            $this->error('Unknown data source: '.$table, 404);
         }
 
         //create query builder
@@ -104,11 +105,11 @@ class BreadController extends ApiController
 
         if (!$canRead) {
             if (!$this->user) {
-                return $this->response('Not allowed to read '.$table, 401);
+                return $this->error('Not allowed to read '.$table, 401);
             } elseif ($breadService->hasColumn('user_id')) {
                 $query->where($table.'.user_id', $this->user->id);
             } else {
-                return $this->response('Not allowed to read '.$table, 403);
+                return $this->error('Not allowed to read '.$table, 403);
             }
         }
 
@@ -140,7 +141,7 @@ class BreadController extends ApiController
 
         $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
 
-        return $this->response($breadService->format($query->first()));
+        return $this->response($query->first());
     }
 
     public function add($table, Request $request)
@@ -157,9 +158,9 @@ class BreadController extends ApiController
 
         if (!$canAdd) {
             if (!$this->user) {
-                return $this->response('Not allowed to add '.$table, 401);
+                return $this->error('Not allowed to add '.$table, 401);
             } else {
-                return $this->response('Not allowed to add '.$table, 403);
+                return $this->error('Not allowed to add '.$table, 403);
             }
         }
 
@@ -202,7 +203,7 @@ class BreadController extends ApiController
 
         //check if table is hidden
         if ($breadService->isHiddenTable()) {
-            $this->response('Unknown data source: '.$table, 404);
+            $this->error('Unknown data source: '.$table, 404);
         }
 
         $query = \DB::table($table);
@@ -212,11 +213,11 @@ class BreadController extends ApiController
 
         if (!$canEdit) {
             if (!$this->user) {
-                return $this->response('Not allowed to edit '.$table, 401);
+                return $this->error('Not allowed to edit '.$table, 401);
             } elseif ($breadService->hasColumn('user_id')) {
                 $query->where($table.'.user_id', $this->user->id);
             } else {
-                return $this->response('Not allowed to edit '.$table, 403);
+                return $this->error('Not allowed to edit '.$table, 403);
             }
         }
 
@@ -249,7 +250,7 @@ class BreadController extends ApiController
             }
         } else {
             if (empty($request->query())) {
-                return $this->response("You must specify ID or query scope!", 422);
+                return $this->error("You must specify ID or query scope!", 422);
             } else {
                 $breadService->applyHttpScopes($query, $request);
             }
@@ -276,7 +277,7 @@ class BreadController extends ApiController
 
         //check if table is hidden
         if ($breadService->isHiddenTable()) {
-            $this->response('Unknown data source: '.$table, 404);
+            $this->error('Unknown data source: '.$table, 404);
         }
 
         $query = \DB::table($table);
@@ -286,11 +287,11 @@ class BreadController extends ApiController
 
         if (!$canDelete) {
             if (!$this->user) {
-                return $this->response('Not allowed to delete '.$table, 401);
+                return $this->error('Not allowed to delete '.$table, 401);
             } elseif ($breadService->hasColumn('user_id')) {
                 $query->where($table.'.user_id', $this->user->id);
             } else {
-                return $this->response('Not allowed to delete '.$table, 403);
+                return $this->error('Not allowed to delete '.$table, 403);
             }
         }
 
@@ -302,7 +303,7 @@ class BreadController extends ApiController
             }
         } else {
             if (empty($request->query())) {
-                return $this->response("You must specify ID or query scope!", 422);
+                return $this->error("You must specify ID or query scope!", 422);
             } else {
                 $breadService->applyHttpScopes($query, $request);
             }
@@ -332,7 +333,7 @@ class BreadController extends ApiController
 
         //check if table is hidden
         if ($breadService->isHiddenTable()) {
-            $this->response('Unknown data source: '.$table, 404);
+            $this->error('Unknown data source: '.$table, 404);
         }
 
         $query = \DB::table($table);
@@ -342,11 +343,11 @@ class BreadController extends ApiController
 
         if (!$canDelete) {
             if (!$this->user) {
-                return $this->response('Not allowed to delete '.$table, 401);
+                return $this->error('Not allowed to delete '.$table, 401);
             } elseif ($breadService->hasColumn('user_id')) {
                 $query->where($table.'.user_id', $this->user->id);
             } else {
-                return $this->response('Not allowed to delete '.$table, 403);
+                return $this->error('Not allowed to delete '.$table, 403);
             }
         }
 
@@ -358,7 +359,7 @@ class BreadController extends ApiController
             }
         } else {
             if (empty($request->query())) {
-                return $this->response("You must specify ID or query scope!", 422);
+                return $this->error("You must specify ID or query scope!", 422);
             } else {
                 $breadService->applyHttpScopes($query, $request);
             }
@@ -394,7 +395,7 @@ class BreadController extends ApiController
         $breadService = new BreadService($table);
 
         if (!$breadService->hasColumn($field)) {
-            return $this->response('Field does not exist: '.$field, 404);
+            return $this->error('Field does not exist: '.$field, 404);
         }
 
         $query = \DB::table($table);
@@ -408,7 +409,7 @@ class BreadController extends ApiController
         $entry = $query->first();
 
         if (!$entry) {
-            return $this->response('Row '.$id.' does not exist in '.$table, 404);
+            return $this->error('Row '.$id.' does not exist in '.$table, 404);
         }
 
         if (($breadService->hasColumn('created_at') && $breadService->hasColumn('updated_at') && $entry->created_at != $entry->updated_at) || !empty($entry->{$field})) {
@@ -431,27 +432,27 @@ class BreadController extends ApiController
 
         if (!$canUpload) {
             if (!$this->user) {
-                return $this->response('Not allowed to upload to '.$table, 401);
+                return $this->error('Not allowed to upload to '.$table, 401);
             } elseif ($table == 'users') {
                 $query->where($table.'.id', $this->user->id);
             } elseif ($breadService->hasColumn('user_id')) {
                 $query->where($table.'.user_id', $this->user->id);
             } else {
-                return $this->response('Not allowed to upload to '.$table, 403);
+                return $this->error('Not allowed to upload to '.$table, 403);
             }
         }
 
         $toUpdate = $query->first();
 
         if (!$toUpdate) {
-            return $this->response('Not allowed to upload to update row '.$id, 403);
+            return $this->error('Not allowed to upload to update row '.$id, 403);
         }
 
         //get upload options
         $uploadOptions = $breadService->getUploadOptions($action, $field, $this->user);
 
         if (!$uploadOptions) {
-            return $this->response('Not allowed to upload '.$field, 403);
+            return $this->error('Not allowed to upload '.$field, 403);
         }
 
         //get uploaded file
@@ -475,7 +476,7 @@ class BreadController extends ApiController
         $mimeType = $fileInfo->buffer($uploadedFile);
 
         if (isset($uploadOptions['type']) && is_array($uploadOptions['type']) && !in_array($mimeType, $uploadOptions['type'])) {
-            return $this->response('Not allowed to upload '.$mimeType, 422);
+            return $this->error('Not allowed to upload '.$mimeType, 422);
         }
 
         $fileName = $request->query('fileName');
@@ -493,7 +494,7 @@ class BreadController extends ApiController
         $storageDisk = setting('site.upload_disk', 'public');
 
         if (in_array($extension, ['php', 'php3', 'php4', 'php5', 'php7', 'phar', 'asp', 'aspx'])) {
-            return $this->response('Not allowed to upload '.$extension, 422);
+            return $this->error('Not allowed to upload '.$extension, 422);
         }
 
         if (\Storage::disk($storageDisk)->exists($filePath)) {
@@ -505,7 +506,7 @@ class BreadController extends ApiController
 
         if (isset($uploadOptions['validation']) && isset($uploadOptions['validation']['maxFileSize'])) {
             if ($size > $uploadOptions['validation']['maxFileSize']) {
-                return $this->response('File size can not be greater than '.$uploadOptions['validation']['maxFileSize'].' kilobytes', 422);
+                return $this->error('File size can not be greater than '.$uploadOptions['validation']['maxFileSize'].' kilobytes', 422);
             }
         }
 
@@ -520,19 +521,19 @@ class BreadController extends ApiController
 
             if (isset($uploadOptions['validation'])) {
                 if (isset($uploadOptions['validation']['maxWidth']) && $width > $uploadOptions['validation']['maxWidth']) {
-                    return $this->response('Image width must be less than '.$uploadOptions['validation']['maxWidth'].' pixels', 422);
+                    return $this->error('Image width must be less than '.$uploadOptions['validation']['maxWidth'].' pixels', 422);
                 }
 
                 if (isset($uploadOptions['validation']['maxHeight']) && $width > $uploadOptions['validation']['maxHeight']) {
-                    return $this->response('Image height must be less than '.$uploadOptions['validation']['maxHeight'].' pixels', 422);
+                    return $this->error('Image height must be less than '.$uploadOptions['validation']['maxHeight'].' pixels', 422);
                 }
 
                 if (isset($uploadOptions['validation']['minWidth']) && $height < $uploadOptions['validation']['minWidth']) {
-                    return $this->response('Image width must be greater than '.$uploadOptions['validation']['minWidth'].' pixels', 422);
+                    return $this->error('Image width must be greater than '.$uploadOptions['validation']['minWidth'].' pixels', 422);
                 }
 
                 if (isset($uploadOptions['validation']['minHeight']) && $height < $uploadOptions['validation']['minHeight']) {
-                    return $this->response('Image height must be greater than '.$uploadOptions['validation']['minHeight'].' pixels', 422);
+                    return $this->error('Image height must be greater than '.$uploadOptions['validation']['minHeight'].' pixels', 422);
                 }
             }
 

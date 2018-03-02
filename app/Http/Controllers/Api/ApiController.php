@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Api;
 
+use App\Breadly\Components\JsonOutput;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -29,28 +30,20 @@ class ApiController extends Controller
     /**
      *
      *
-     * @param string $content
+     * @param mixed $content
      * @param int    $status
+     * @param array  $extras
      *
      * @return Response
      */
-    protected function response($content, $status = 200, $headers = [])
+    public function response($content, $status = 200, $extras = [])
     {
-        $response = response($content, $status)
-            ->header('Content-Type', 'text/plain')
-            ->header('X-Request-Route', app('request')->route()->getName())
-            ->header('X-Request-Uri', app('request')->path());
+        return JsonOutput::httpResponse($content, $status, $extras);
+    }
 
-        foreach ($headers as $key => $value) {
-            $response->header($key, $value);
-        }
-
-        $tag = app('request')->header('X-Request-Tag');
-        if (!empty($tag)) {
-            $response->header('X-Request-Tag', $tag);
-        }
-
-        return $response;
+    public function error($error, $status = 500)
+    {
+        return JsonOutput::httpResponse($error, $status);
     }
 
     /**
