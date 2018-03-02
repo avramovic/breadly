@@ -2,6 +2,7 @@
 
 use App\Events\BreadProfileUpdated;
 use App\Events\BreadUserRegistered;
+use App\Http\Requests\AuthenticateRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\RegisterUserApiRequest;
 use App\Http\Requests\ResetPasswordRequest;
@@ -9,7 +10,6 @@ use App\Http\Requests\UpdateProfileApiRequest;
 use App\Models\User;
 use App\Notifications\SendPasswordResetCodeEmail;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Ramsey\Uuid\Uuid;
@@ -18,7 +18,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends ApiController
 {
-    public function authenticate(Request $request)
+    public function authenticate(AuthenticateRequest $request)
     {
         if ($this->user) {
             return $this->error("You are already logged in.", 403);
