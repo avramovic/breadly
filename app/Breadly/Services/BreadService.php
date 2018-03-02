@@ -162,16 +162,10 @@ class BreadService
         }
 
         foreach ($entity as $field => $value) {
-
-//            if (in_array($field, isset($this->hidden[$this->table]) ? $this->hidden[$this->table] : [])) {
-//                continue;
-//            }
-
-            $data[] = $field;
-            $data[] = is_numeric($value) ? $value : json_encode(str_replace(["\r", "\n"], '', $value));
+            $data[] = '('.json_encode($field).','.(is_numeric($value) ? $value : json_encode(str_replace(["\r", "\n"], '', $value))).')';
         }
 
-        return implode(',', $data);
+        return '('.implode(',', $data).')';
     }
 
     protected function formatCollection(Collection $collection)
