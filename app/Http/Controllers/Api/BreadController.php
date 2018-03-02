@@ -267,7 +267,7 @@ class BreadController extends ApiController
 
         $toUpdate = $query->get();
 
-        if ($toUpdate->count() < 1) {
+        if ($toUpdate->count() < 1 && $id) {
             return $this->error("Entity not found.", 404);
         }
 
@@ -327,7 +327,7 @@ class BreadController extends ApiController
             $toDelete = $query->get();
             $ids      = [];
 
-            if ($toDelete->count() < 1) {
+            if ($toDelete->count() < 1 && $id) {
                 return $this->error("Entity not found.", 404);
             }
 
@@ -387,7 +387,7 @@ class BreadController extends ApiController
         $ids         = [];
         $storageDisk = setting('site.upload_disk', 'public');
 
-        if ($toDelete->count() < 1) {
+        if ($toDelete->count() < 1 && $id) {
             return $this->error("Entity not found.", 404);
         }
 
