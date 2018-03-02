@@ -165,7 +165,7 @@ class BreadService
             $data[] = '('.json_encode($field).','.(is_numeric($value) ? $value : json_encode(str_replace(["\r", "\n"], '', $value))).')';
         }
 
-        return '('.implode(',', $data).')';
+        return implode(',', $data);
     }
 
     protected function formatCollection(Collection $collection)
