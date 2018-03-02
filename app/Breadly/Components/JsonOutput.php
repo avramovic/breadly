@@ -116,7 +116,7 @@ class JsonOutput
         $jsonOut = null;
 
         if ($status >= 400) {
-            $jsonOut = JsonOutput::make()->errors($content)->code($status);
+            $jsonOut = JsonOutput::make()->errors($content ?: $message)->code($status);
         } elseif ($content instanceof Collection || (is_array($content) && !Arr::isAssoc($content))) {
             $jsonOut = JsonOutput::make()->collection($content)->message($message)->code($status);
         } else {
