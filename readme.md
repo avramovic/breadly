@@ -40,6 +40,12 @@ Then install dependencies with composer:
 
 `composer install`
 
+Then set up environment variables, either by copying and modifying `.env.example` file into `.env` or by adding them to your ENV.
+
+Finally, set the app key with:
+
+`php artisan key:generate`
+
 ## Setup
 
 Once dependencies are installed, point your web site root to the `public` subfolder of this project and simply navigate to `http://yourwebsite.com/install`, then follow on-screen instructions to set up a database connection.
@@ -53,3 +59,9 @@ Admin user is automatically created with following credentials:
 ### Important
 
 Make sure to change admin e-mail and password at your first login!
+
+## Manual setup
+
+Instead of going through the web installer, you can install manually by running:
+
+`php artisan migrate --seed`
