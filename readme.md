@@ -10,7 +10,7 @@ Breadly allows you to perform BREAD operations on your relational database table
 * multiple [DB drivers](https://laravel.com/docs/5.5/database#introduction): mysql, postgre, sqlite, ...
 * web based admin panel to manage database structure and data (*B*rowse, *R*ead, *E*dit, *A*dd, *D*elete)
 * provides a base platform to integrate your app and your web site
-* simple HTTP API (in CSV format) to use from within your App Inventor apps (with ordinary Web component)
+* simple HTTP API (in JSON format) to use from within your App Inventor apps (with ordinary Web component)
 * user registration system with roles and permissions out-of-the-box (JWT token)
 * file uploads from your app to your server or S3 storage
 * image uploads with automatic resizing
