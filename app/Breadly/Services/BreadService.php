@@ -9,6 +9,7 @@ class BreadService
     public $table = null;
     protected $columns = [];
     protected $hiddenTables = [];
+    protected $ignoreQueryParams = ['bindings', 'withDeleted', 'deletedOnly', 'with', 'page', 'perPage', 'token'];
 
     public function __construct($table)
     {
@@ -56,7 +57,7 @@ class BreadService
     {
         $query->where(function () use ($query, $request) {
 
-            foreach (with(collect($request->query()))->except(['bindings', 'withDeleted', 'deletedOnly', 'with', 'page', 'perPage']) as $command => $params) {
+            foreach (with(collect($request->query()))->except($this->ignoreQueryParams) as $command => $params) {
                 $command = strtolower($command);
 
                 if ($command == 'where') {
