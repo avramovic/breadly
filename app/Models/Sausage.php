@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
-
-class Sausage extends Model
+class Sausage extends BreadModel
 {
     
 }
