@@ -95,7 +95,7 @@
                                            value="@if(isset($dataType->icon)){{ $dataType->icon }}@endif">
                                 </div>
                             </div>
-                            <div class="row clearfix">
+                            <div class="row clearfix hidden">
                                 <div class="col-md-6 form-group">
                                     <label for="email">{{ __('voyager.database.model_name') }}</label>
                                     <span class="voyager-question"
@@ -118,7 +118,7 @@
                                 </div>
                             </div>
                             <div class="row clearfix">
-                                <div class="col-md-6 form-group">
+                                <div class="col-md-6 form-group" style="visibility: hidden">
                                     <label for="email">{{ __('voyager.database.policy_name') }}</label>
                                     <span class="voyager-question"
                                           aria-hidden="true"
