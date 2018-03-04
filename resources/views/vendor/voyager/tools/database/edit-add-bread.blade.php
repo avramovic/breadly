@@ -128,7 +128,7 @@
                                     <input type="text" class="form-control" name="policy_name" placeholder="{{ __('voyager.database.policy_class') }}"
                                            value="@if(isset($dataType->policy_name)){{ $dataType->policy_name }}@endif">
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-3 form-group hidden">
                                     <label for="generate_permissions">{{ __('voyager.database.generate_permissions') }}</label><br>
                                     <?php $checked = (isset($dataType->generate_permissions) && $dataType->generate_permissions == 1) ? true : (isset($generate_permissions) && $generate_permissions) ? true : false; ?>
                                     <input type="checkbox" name="generate_permissions" class="toggleswitch" data-on="{{ __('voyager.generic.yes') }}" data-off="{{ __('voyager.generic.no') }}"
@@ -138,6 +138,12 @@
                                     <label for="server_side">{{ __('voyager.database.server_pagination') }}</label><br>
                                     <?php $checked = (isset($dataType->server_side) && $dataType->server_side == 1) ? true : (isset($server_side) && $server_side) ? true : false; ?>
                                     <input type="checkbox" name="server_side" class="toggleswitch" data-on="{{ __('voyager.generic.yes') }}" data-off="{{ __('voyager.generic.no') }}"
+                                           @if($checked) checked @endif>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="public_add">{{ __('voyager.database.public_add') }}</label><br>
+                                    <?php $checked = (isset($dataType->public_add) && $dataType->public_add == 1) ? true : (isset($public_add) && $public_add) ? true : false; ?>
+                                    <input type="checkbox" name="public_add" class="toggleswitch" data-on="{{ __('voyager.generic.yes') }}" data-off="{{ __('voyager.generic.no') }}"
                                            @if($checked) checked @endif>
                                 </div>
                             </div>
@@ -151,15 +157,15 @@
                                 </div>
 
                                 <div class="col-md-3 form-group">
-                                    <label for="public_browse_read">{{ __('voyager.database.public_browse_read') }}</label><br>
-                                    <?php $checked = (isset($dataType->public_browse_read) && $dataType->public_browse_read == 1) ? true : (isset($public_browse_read) && $public_browse_read) ? true : false; ?>
-                                    <input type="checkbox" name="public_browse_read" class="toggleswitch" data-on="{{ __('voyager.generic.yes') }}" data-off="{{ __('voyager.generic.no') }}"
+                                    <label for="public_browse_read">{{ __('voyager.database.public_browse') }}</label><br>
+                                    <?php $checked = (isset($dataType->public_browse) && $dataType->public_browse == 1) ? true : (isset($public_browse) && $public_browse) ? true : false; ?>
+                                    <input type="checkbox" name="public_browse" class="toggleswitch" data-on="{{ __('voyager.generic.yes') }}" data-off="{{ __('voyager.generic.no') }}"
                                            @if($checked) checked @endif>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label for="public_add">{{ __('voyager.database.public_add') }}</label><br>
-                                    <?php $checked = (isset($dataType->public_add) && $dataType->public_add == 1) ? true : (isset($public_add) && $public_add) ? true : false; ?>
-                                    <input type="checkbox" name="public_add" class="toggleswitch" data-on="{{ __('voyager.generic.yes') }}" data-off="{{ __('voyager.generic.no') }}"
+                                    <label for="public_add">{{ __('voyager.database.public_read') }}</label><br>
+                                    <?php $checked = (isset($dataType->public_read) && $dataType->public_read == 1) ? true : (isset($public_read) && $public_read) ? true : false; ?>
+                                    <input type="checkbox" name="public_read" class="toggleswitch" data-on="{{ __('voyager.generic.yes') }}" data-off="{{ __('voyager.generic.no') }}"
                                            @if($checked) checked @endif>
                                 </div>
                             </div>

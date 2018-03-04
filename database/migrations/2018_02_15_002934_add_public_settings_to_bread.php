@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddPublicSettingsToBread extends Migration
 {
@@ -14,8 +14,9 @@ class AddPublicSettingsToBread extends Migration
     public function up()
     {
         Schema::table('data_types', function (Blueprint $table) {
-            $table->boolean('public_browse_read')->default(false)->after('server_side');
-            $table->boolean('public_add')->default(false)->after('public_browse_read');
+            $table->boolean('public_browse')->default(false)->after('server_side');
+            $table->boolean('public_read')->default(false)->after('public_browse');
+            $table->boolean('public_add')->default(false)->after('public_read');
         });
     }
 
@@ -27,7 +28,7 @@ class AddPublicSettingsToBread extends Migration
     public function down()
     {
         Schema::table('data_types', function (Blueprint $table) {
-            $table->dropColumn(['public_browse_read', 'public_add']);
+            $table->dropColumn(['public_browse', 'public_read', 'public_add']);
         });
     }
 }

@@ -20,9 +20,10 @@ class VoyagerDatabaseController extends BaseVoyagerDatabaseController
         $result = parent::storeBread($request);
 
         try {
-            $dataType                     = Voyager::model('DataType')->orderBy('id', 'desc')->first();
-            $dataType->public_browse_read = isset($request->public_browse_read);
-            $dataType->public_add         = isset($request->public_add);
+            $dataType                = Voyager::model('DataType')->orderBy('id', 'desc')->first();
+            $dataType->public_browse = isset($request->public_browse);
+            $dataType->public_read   = isset($request->public_read);
+            $dataType->public_add    = isset($request->public_add);
             $dataType->save();
         } catch (\Exception $ex) {
             \Log::error($ex);
@@ -38,9 +39,10 @@ class VoyagerDatabaseController extends BaseVoyagerDatabaseController
         $result = parent::updateBread($request, $id);
 
         try {
-            $dataType                     = Voyager::model('DataType')->find($id);
-            $dataType->public_browse_read = isset($request->public_browse_read);
-            $dataType->public_add         = isset($request->public_add);
+            $dataType                = Voyager::model('DataType')->find($id);
+            $dataType->public_browse = isset($request->public_browse);
+            $dataType->public_read   = isset($request->public_read);
+            $dataType->public_add    = isset($request->public_add);
             $dataType->save();
         } catch (\Exception $ex) {
             \Log::error($ex);

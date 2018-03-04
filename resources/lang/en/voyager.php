@@ -314,7 +314,8 @@ return [
         'url_slug'                  => 'URL Slug (must be unique)',
         'url_slug_ph'               => 'URL slug (ex. posts)',
         'visibility'                => 'Visibility',
-        'public_browse_read'        => 'Anyone can browse/read',
+        'public_browse'             => 'Anyone can browse',
+        'public_read'               => 'Anyone can read',
         'public_add'                => 'Anyone can add',
         'relationship'              => [
             'relationship'         => 'Relationship',

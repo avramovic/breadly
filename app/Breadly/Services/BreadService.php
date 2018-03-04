@@ -174,8 +174,10 @@ class BreadService
     public function can($action, $user = null)
     {
         if (!$user) {
-            if (in_array($action, ['browse', 'read'])) {
-                return (bool)$this->getDataType()->public_browse_read;
+            if ($action == 'browse') {
+                return (bool)$this->getDataType()->public_browse;
+            } elseif ($action == 'read') {
+                return (bool)$this->getDataType()->public_read;
             } elseif ($action == 'add') {
                 return (bool)$this->getDataType()->public_add;
             } else {
