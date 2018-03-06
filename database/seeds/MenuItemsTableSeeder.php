@@ -161,6 +161,23 @@ class MenuItemsTableSeeder extends Seeder
                     'order'      => 14,
                 ])->save();
             }
+
+
+            $menuItem = MenuItem::firstOrNew([
+                'menu_id' => $menu->id,
+                'title'   => 'Tasks',
+                'url'     => '/admin/tasks',
+//                'route'   => '',
+            ]);
+            if (!$menuItem->exists) {
+                $menuItem->fill([
+                    'target'     => '_self',
+                    'icon_class' => 'voyager-check-circle',
+                    'color'      => null,
+                    'parent_id'  => null,
+                    'order'      => 15,
+                ])->save();
+            }
         }
     }
 }
