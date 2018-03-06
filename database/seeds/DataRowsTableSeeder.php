@@ -376,7 +376,12 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '',
+                'details'      => "{
+    \"validation\": {
+        \"add\": \"required|string|max:255\",
+        \"edit\": \"string|max:255\"
+    }
+}",
                 'order'        => 2,
             ])->save();
         }
@@ -385,7 +390,7 @@ class DataRowsTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'timestamp',
-                'display_name' => 'created_at',
+                'display_name' => 'Created At',
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
@@ -393,7 +398,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '',
-                'order'        => 5,
+                'order'        => 6,
             ])->save();
         }
 
@@ -401,7 +406,7 @@ class DataRowsTableSeeder extends Seeder
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'timestamp',
-                'display_name' => 'updated_at',
+                'display_name' => 'Updated At',
                 'required'     => 0,
                 'browse'       => 0,
                 'read'         => 1,
@@ -409,7 +414,7 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 0,
                 'delete'       => 0,
                 'details'      => '',
-                'order'        => 6,
+                'order'        => 7,
             ])->save();
         }
 
@@ -449,8 +454,28 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => '',
-                'order'        => 3,
+                'details'      => "{
+    \"validation\": {
+        \"add\": \"absent\",
+        \"edit\": \"boolean\"
+    }
+}",                'order'        => 3,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($taskDataType, 'user_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => 'User ID',
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'details'      => '{ "validation": "absent" }',
+                'order'        => 5,
             ])->save();
         }
 

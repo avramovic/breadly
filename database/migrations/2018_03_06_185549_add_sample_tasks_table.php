@@ -18,7 +18,7 @@ class AddSampleTasksTable extends Migration
             $table->string('name');
             $table->boolean('is_done')->default(false);
             $table->string('image')->nullable();
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable();
             $table->timestamps();
         });
 
