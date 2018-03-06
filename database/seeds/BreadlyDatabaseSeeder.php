@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use TCG\Voyager\Traits\Seedable;
 
-class VoyagerDatabaseSeeder extends Seeder
+class BreadlyDatabaseSeeder extends Seeder
 {
     use Seedable;
 
