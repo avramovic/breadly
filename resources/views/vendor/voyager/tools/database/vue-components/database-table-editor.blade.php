@@ -15,7 +15,7 @@
         @if($db->action == 'create')
             <div class="col-md-3 col-sm-4 col-xs-6 hidden">
                 <label for="create_model">{{ __('voyager.database.create_model_table') }}</label><br>
-                <input type="checkbox" name="create_model" checked="checked" data-toggle="toggle"
+                <input type="checkbox" name="create_model" {{--checked="checked"--}} data-toggle="toggle"
                        data-on="{{ __('voyager.generic.yes_please') }}" data-off="{{ __('voyager.generic.no_thanks') }}">
             </div>
             {{--

@@ -28,7 +28,7 @@ class BreadlyExtendCustomModel extends MakeModelCommand
     public function handle()
     {
         $modelClass = $this->argument('model');
-        $modelFile  = base_path().'/app/Models/'.$modelClass.'.php';
+        $modelFile  = base_path('app/Models/'.$modelClass.'.php');
         $model      = $this->files->get($modelFile);
         $model      = str_replace('extends Model', 'extends BreadModel', $model);
 

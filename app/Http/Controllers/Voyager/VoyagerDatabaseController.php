@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Voyager;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use TCG\Voyager\Database\Schema\Table;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Http\Controllers\VoyagerDatabaseController as BaseVoyagerDatabaseController;
 use TCG\Voyager\Models\DataType;
@@ -61,18 +59,5 @@ class VoyagerDatabaseController extends BaseVoyagerDatabaseController
         }
 
         return parent::deleteBread($id);
-    }
-
-    public function store(Request $request)
-    {
-        $redirector = parent::store($request);
-
-        $table = Table::make($request->table);
-
-        \Artisan::call('breadly:extend:model', [
-            'model' => Str::studly(Str::singular($table->name)),
-        ]);
-
-        return $redirector;
     }
 }
