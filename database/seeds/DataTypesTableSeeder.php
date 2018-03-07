@@ -63,7 +63,7 @@ class DataTypesTableSeeder extends Seeder
                 'model_name'            => 'App\\Models\\Task',
                 'controller'            => '',
                 'generate_permissions'  => 1,
-                'description'           => '',
+                'description'           => 'This is a sample table to use with the demo app. It is not required for Breadly to work correctly. Feel free to remove it if your app doesn\'t need to hold tasks.',
             ])->save();
         }
     }
