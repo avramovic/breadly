@@ -36,7 +36,7 @@ class BreadlyServiceProvider extends ServiceProvider
      */
     protected function createMissingBreadModelClasses()
     {
-        $tables = collect(array_map('reset', \DB::select('SHOW TABLES')))
+        $tables = collect(\DB::connection()->getDoctrineSchemaManager()->listTableNames())
             ->diff(array_merge(config('voyager.database.tables.hidden'), ['users', 'roles']));
 
         foreach ($tables as $table) {
