@@ -40,7 +40,7 @@ class BreadlyServiceProvider extends ServiceProvider
             ->diff(array_merge(config('voyager.database.tables.hidden'), ['users', 'roles']));
 
         foreach ($tables as $table) {
-            $model     = ucfirst(strtolower(Str::singular($table)));
+            $model     = Str::studly(Str::singular($table));
             $namespace = rtrim(config('voyager.models.namespace', 'App\\Models\\'), '\\');
 
 //            if (!is_file(base_path('app/Models/'.$model.'.php'))) {
