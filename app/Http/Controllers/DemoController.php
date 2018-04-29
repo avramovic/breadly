@@ -12,6 +12,10 @@ class DemoController extends Controller
         if (env('APP_ENV', 'local') == 'demo') {
             User::find(1)->update(['password' => bcrypt('password')]);
 
+            if (!file_exists(public_path('storage'))) {
+                app('files')->link(storage_path('app/public'), public_path('storage'));
+            }
+
             die('Done!');
         }
 
