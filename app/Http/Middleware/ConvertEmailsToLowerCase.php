@@ -16,7 +16,7 @@ class ConvertEmailsToLowerCase
      */
     public function handle($request, Closure $next)
     {
-        if (isset($request->email)) {
+        if (isset($request->email) && is_string($request->email)) {
             $data          = $request->all();
             $data['email'] = strtolower($data['email']);
             $request->replace($data);

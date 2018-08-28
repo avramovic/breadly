@@ -64,6 +64,8 @@ class BreadController extends ApiController
             $extras['pagination']['total_pages']  = $totalPages;
             $extras['pagination']['per_page']     = $perPage;
             $extras['pagination']['total_rows']   = $total;
+            $extras['pagination']['has_next']     = $page < $totalPages;
+            $extras['pagination']['has_previous'] = $page > 1;
         } else {
             $breadService->applyHttpScopes($query, $request, false);
             $breadService->applySoftDeleteChecks($query, $request->withDeleted, $request->deletedOnly);
@@ -271,7 +273,7 @@ class BreadController extends ApiController
             return $this->error("Entity not found.", 404);
         }
 
-        $ids      = [];
+        $ids = [];
 
         foreach ($toUpdate as $row) {
             $ids[] = $row->id;
