@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::post('auth/login', ['as' => 'auth.login', 'uses' => 'Api\\AuthController@authenticate']);
+Route::post('auth/guid', ['as' => 'auth.login.guid', 'uses' => 'Api\\AuthController@guidAuthenticate']);
 Route::get('auth/profile', ['as' => 'auth.profile', 'uses' => 'Api\\AuthController@profile']);
 Route::post('auth/profile', ['as' => 'auth.profile.update', 'uses' => 'Api\\AuthController@updateProfile']);
 Route::post('auth/register', ['as' => 'auth.register', 'uses' => 'Api\\AuthController@register']);

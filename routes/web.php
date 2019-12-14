@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('home', 'HomeController@index')->name('home');
 
 
 Route::get('verify/{token}', ['as' => 'users.verify', 'uses' => 'UserController@verify']);
@@ -28,6 +28,10 @@ Auth::routes();
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    Route::post('tinywebdb/purge', ['as' => 'admin.tinywebdb.purge', 'uses' => 'UserController@verify']);
 });
+
+Route::post('getvalue', ['as' => 'tinywebdb.getvalue', 'uses' => 'TinyWebDbController@getvalue']);
+Route::post('storeavalue', ['as' => 'tinywebdb.storeavalue', 'uses' => 'TinyWebDbController@storeavalue']);
 
 

@@ -4,3 +4,4 @@
         - v{{ config('app.version', '?') }}
     </div>
 </footer>
+<script src="{{ asset('js/breadly.js') }}"></script>
