@@ -92,7 +92,7 @@ return [
     'database' => [
         'tables' => [
             'hidden' => ['migrations', 'data_rows', 'data_types', 'menu_items', 'password_resets', 'permission_role',
-                'settings', 'permissions', 'permission_groups', 'translations', 'menus'],
+                'settings', 'permissions', 'permission_groups', 'translations', 'menus', 'tinywebdb'],
         ],
     ],
 
@@ -167,9 +167,8 @@ return [
         ],
 
         'widgets' => [
-            'TCG\\Voyager\\Widgets\\UserDimmer',
-//            'TCG\\Voyager\\Widgets\\PostDimmer',
-//            'TCG\\Voyager\\Widgets\\PageDimmer',
+            TCG\Voyager\Widgets\UserDimmer::class,
+            \App\Breadly\Widgets\TinyWebDbWidget::class,
         ],
 
     ],
