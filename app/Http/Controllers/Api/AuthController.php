@@ -4,6 +4,7 @@ use App\Events\BreadProfileUpdated;
 use App\Events\BreadUserRegistered;
 use App\Http\Requests\AuthenticateRequest;
 use App\Http\Requests\ForgotPasswordRequest;
+use App\Http\Requests\GuidAuthenticateRequest;
 use App\Http\Requests\RegisterUserApiRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdateProfileApiRequest;
@@ -44,6 +45,29 @@ class AuthController extends ApiController
         }
 
         // all good so return the token
+        return $this->response($token, "Log in successful.");
+    }
+
+    public function guidAuthenticate(GuidAuthenticateRequest $request)
+    {
+        if (!setting('site.enable_guid_login')) {
+            return $this->error("GUID login is not available!", 403);
+        }
+
+        $data = $request->except(['password']);
+        $user = User::where($data)->first();
+
+        if (!$user) {
+
+            if (!empty($request->password)) {
+                $data['password'] = bcrypt($request->password);
+            }
+
+            $user = User::create($data);
+        }
+
+        $token = JWTAuth::fromUser($user);
+
         return $this->response($token, "Log in successful.");
     }
 
