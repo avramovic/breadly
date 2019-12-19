@@ -15,6 +15,7 @@
         "intervention/image": "^2.4",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "oomphinc/composer-installers-extender": "^1.1",
         "rachidlaasri/laravel-installer": "^3.2",
         "ralouphie/mimey": "^1.0",
         "tcg/voyager": "^1.0",
@@ -44,6 +45,10 @@
     "extra": {
         "laravel": {
             "dont-discover": []
+        },
+        "installer-types": ["module"],
+        "installer-paths": {
+            "app/Modules/{$name}/": ["type:module"]
         }
     },
     "scripts": {
@@ -63,10 +68,10 @@
         "sort-packages": true,
         "optimize-autoloader": true
     },
-    "repositories": {
-        "hooks": {
+    "repositories": [
+        {
             "type": "composer",
             "url": "https://larapack.io"
         }
-    }
+    ]
 }
