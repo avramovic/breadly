@@ -8,8 +8,9 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "ext-gd": "*",
         "php": ">=7.1.0",
+        "ext-gd": "*",
+        "caffeinated/modules": "4.3.2",
         "fideloper/proxy": "~3.3",
         "intervention/image": "^2.4",
         "laravel/framework": "5.5.*",
