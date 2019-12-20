@@ -10,7 +10,7 @@
     "require": {
         "php": ">=7.1.0",
         "ext-gd": "*",
-        "avram/composer-caffeinated-module-installer": "dev-master",
+        "avram/composer-caffeinated-module-installer": "^0.1.0",
         "caffeinated/modules": "4.3.2",
         "fideloper/proxy": "~3.3",
         "intervention/image": "^2.4",

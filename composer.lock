@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a12d19c18b86ca8c8d208c085b055c30",
+    "content-hash": "9dc77b0e12b6a8d500ddea390524643f",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -69,16 +69,16 @@
         },
         {
             "name": "avram/composer-caffeinated-module-installer",
-            "version": "dev-master",
+            "version": "v0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/avramovic/composer-caffeinated-module-installer.git",
-                "reference": "abb07b5fedda5aa2c4d341c18dba525363a1fb0c"
+                "reference": "6d039a04571edf69ede492718e8d871ec1048a7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avramovic/composer-caffeinated-module-installer/zipball/abb07b5fedda5aa2c4d341c18dba525363a1fb0c",
-                "reference": "abb07b5fedda5aa2c4d341c18dba525363a1fb0c",
+                "url": "https://api.github.com/repos/avramovic/composer-caffeinated-module-installer/zipball/6d039a04571edf69ede492718e8d871ec1048a7a",
+                "reference": "6d039a04571edf69ede492718e8d871ec1048a7a",
                 "shasum": ""
             },
             "require": {
@@ -107,9 +107,9 @@
             "description": "Extend the composer/installers plugin to accept caffeinated modules.",
             "support": {
                 "issues": "https://github.com/avramovic/composer-caffeinated-module-installer/issues",
-                "source": "https://github.com/avramovic/composer-caffeinated-module-installer/tree/master"
+                "source": "https://github.com/avramovic/composer-caffeinated-module-installer/tree/v0.1"
             },
-            "time": "2019-12-20 09:42:54"
+            "time": "2019-12-20T10:06:16+00:00"
         },
         {
             "name": "caffeinated/modules",
@@ -5891,7 +5891,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "avram/composer-caffeinated-module-installer": 20,
         "tymon/jwt-auth": 5
     },
     "prefer-stable": false,
