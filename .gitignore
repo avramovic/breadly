@@ -13,5 +13,5 @@ yarn-error.log
 /storage/installed
 .DS_Store
 **/.DS_Store
-app/Modules/*
+modules/*
 !**/.gitkeep

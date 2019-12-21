@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9dc77b0e12b6a8d500ddea390524643f",
+    "content-hash": "2747ea0fc9b45d018d114e4b5832b0b2",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -66,6 +66,49 @@
                 "widgets"
             ],
             "time": "2017-11-23T21:18:07+00:00"
+        },
+        {
+            "name": "avram/caffeinated-db-repository",
+            "version": "v0.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avramovic/caffeinated-db-repository.git",
+                "reference": "7664e15cb8472ede4b8a1b3c66501ed55b72b5b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avramovic/caffeinated-db-repository/zipball/7664e15cb8472ede4b8a1b3c66501ed55b72b5b0",
+                "reference": "7664e15cb8472ede4b8a1b3c66501ed55b72b5b0",
+                "shasum": ""
+            },
+            "require": {
+                "caffeinated/modules": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Avram\\Caffeinated\\Providers\\DatabaseModulesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Avram\\Caffeinated\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nemanja Avramović",
+                    "email": "avramyu@gmail.com"
+                }
+            ],
+            "description": "Database repository for caffeinated/modules",
+            "time": "2019-12-20T23:41:53+00:00"
         },
         {
             "name": "avram/composer-caffeinated-module-installer",

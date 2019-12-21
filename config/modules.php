@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'path' => app_path('Modules'),
+    'path' => base_path('modules'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'namespace' => 'App\Modules\\',
+    'namespace' => 'Breadly\\Modules\\',
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     */
 
     'driver' => 'custom',
-    'custom_driver' => \App\Breadly\Components\DatabaseModuleRepository::class,
+    'custom_driver' => \Avram\Caffeinated\Repositories\DatabaseRepository::class,
 
     /*
     |--------------------------------------------------------------------------
