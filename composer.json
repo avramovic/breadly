@@ -23,6 +23,7 @@
         "tymon/jwt-auth": "1.0.0-rc.2"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.6",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "~1.0",
@@ -63,6 +64,8 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
             "@php artisan module:optimize"
         ]
     },

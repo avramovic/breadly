@@ -8,10 +8,15 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ setting('app.name', setting('admin.title', config('app.name', 'Breadly'))) }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="app">
@@ -29,7 +34,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ setting('app.name', setting('admin.title', config('app.name', 'Breadly'))) }}
                     </a>
                 </div>
 
@@ -70,6 +75,12 @@
                 </div>
             </div>
         </nav>
+
+        @if(\Session::has('message'))
+        <div class="alert alert-{{ \Session::get('message.type', 'info')  }}" role="alert">
+            {!! \Session::get('message') !!}
+        </div>
+        @endif
 
         @yield('content')
     </div>
