@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return 'name,'.json_encode(config('app.name')).',version,'.json_encode(config('app.version'));
+    return 'name,'.json_encode(setting('app.name'), setting('admin.title', config('app.name'))).',version,'.json_encode(setting('app.version'));
 });
 
 Route::post('auth/login', ['as' => 'auth.login', 'uses' => 'Api\\AuthController@authenticate']);
