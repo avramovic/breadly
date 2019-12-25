@@ -76,7 +76,7 @@
             </div>
         </nav>
 
-        @if(\Session::has('notify'))
+        @if(\Session::has('notify') && !empty(\Session::get('notify')))
         <div class="alert alert-{{ \Session::get('notify.type', 'info')  }}" role="alert">
             {!! \Session::get('notify.text') !!}
         </div>
