@@ -54,8 +54,7 @@ return [
     |
     */
 
-    'driver' => 'custom',
-    'custom_driver' => \Avram\Caffeinated\Repositories\DatabaseRepository::class,
+    'driver' => 'local',
 
     /*
     |--------------------------------------------------------------------------
