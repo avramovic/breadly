@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ setting('app.name', config('app.name', 'Breadly')) }}</title>
+        <title>{{ setting('admin.title', config('app.name', 'Breadly')) }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -84,7 +84,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    {{ setting('app.name', config('app.name', 'Breadly')) }}
+                    {{ setting('admin.title', config('app.name', 'Breadly')) }}
                 </div>
 
                 <div class="links">

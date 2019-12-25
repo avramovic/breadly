@@ -3,9 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class SendWelcomeEmail extends Notification
 {
@@ -22,7 +21,6 @@ class SendWelcomeEmail extends Notification
      */
     public function __construct($user)
     {
-        //
         $this->user = $user;
     }
 
@@ -47,7 +45,7 @@ class SendWelcomeEmail extends Notification
     {
         return (new MailMessage)
                     ->subject("Welcome")
-                    ->line('You are successfully registered to '.env('APP_NAME', 'Breadly'))
+                    ->line('You are successfully registered to '.setting('admin.title', config('app.name', 'Breadly')))
                     ->action('Visit Our Site', url('/'))
                     ->line('Thank you for using our application!');
     }

@@ -22,7 +22,6 @@ class SendPasswordResetCodeEmail extends Notification
      */
     public function __construct($token, $code)
     {
-        //
         $this->token = $token;
         $this->code  = $code;
     }
@@ -51,7 +50,7 @@ class SendPasswordResetCodeEmail extends Notification
         return (new MailMessage)
             ->subject("Reset Password")
             ->line('You are receiving this email because we received a password reset request for your account.')
-            ->line('If '.env('APP_NAME', 'Beadly').' asks you for a password reset code, use: '.$this->code)
+            ->line('If '.setting('admin.title', config('app.name', 'Breadly')).' asks you for a password reset code, use: '.$this->code)
             ->line('Otherwise, you can click the button below to reset your password.')
             ->action('Reset Password', url(config('app.url').route('password.reset', $this->token, false)))
             ->line('If you did not request a password reset, no further action is required.');

@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ setting('app.name', setting('admin.title', config('app.name', 'Breadly'))) }}</title>
+    <title>{{ setting('admin.title', config('app.name', 'Breadly')) }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -34,7 +34,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ setting('app.name', setting('admin.title', config('app.name', 'Breadly'))) }}
+                        {{ setting('admin.title', config('app.name', 'Breadly')) }}
                     </a>
                 </div>
 
@@ -76,9 +76,9 @@
             </div>
         </nav>
 
-        @if(\Session::has('message'))
-        <div class="alert alert-{{ \Session::get('message.type', 'info')  }}" role="alert">
-            {!! \Session::get('message') !!}
+        @if(\Session::has('notify'))
+        <div class="alert alert-{{ \Session::get('notify.type', 'info')  }}" role="alert">
+            {!! \Session::get('notify.text') !!}
         </div>
         @endif
 
