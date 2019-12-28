@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -15,6 +16,9 @@ class BreadlyServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        \Gate::define('browse_bread', function (User $user) {
+            return $user->hasRole('admin');
+        });
     }
 
     /**

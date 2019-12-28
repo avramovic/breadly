@@ -20,7 +20,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "rachidlaasri/laravel-installer": "^3.2",
         "ralouphie/mimey": "^1.0",
-        "tcg/voyager": "^1.0",
+        "tcg/voyager": "1.3",
         "tymon/jwt-auth": "1.0.0-rc.2"
     },
     "require-dev": {

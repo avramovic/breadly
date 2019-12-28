@@ -9,7 +9,7 @@ use TCG\Voyager\Events\BreadDataUpdated;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 
-class AdminUserController extends \TCG\Voyager\Http\Controllers\VoyagerBreadController
+class AdminUserController extends \TCG\Voyager\Http\Controllers\VoyagerBaseController
 {
     use BreadRelationshipParser;
 

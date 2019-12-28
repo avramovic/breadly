@@ -1,8 +1,8 @@
 <?php namespace App\Breadly\Widgets;
 
-use Arrilot\Widgets\AbstractWidget;
+use TCG\Voyager\Widgets\BaseDimmer;
 
-class TinyWebDbWidget extends AbstractWidget
+class TinyWebDbWidget extends BaseDimmer
 {
     public function run()
     {
