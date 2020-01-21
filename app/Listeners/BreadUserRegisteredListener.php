@@ -2,12 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Notifications\SendWelcomeEmail;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Notifications\SendActivationEmail;
+use App\Notifications\SendWelcomeEmail;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BreadUserRegisteredListener
+class BreadUserRegisteredListener implements ShouldQueue
 {
     /**
      * Create the event listener.
