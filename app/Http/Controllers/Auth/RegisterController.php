@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\BreadUserRegistered;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Notifications\SendActivationEmail;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
 
@@ -71,7 +71,7 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-        $user->notify(new SendActivationEmail($user));
+        event(new BreadUserRegistered($user));
 
         return $user;
     }
