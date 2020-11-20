@@ -3,4 +3,4 @@ image:
 
 tasks:
   - init: bash .gitpod-init.sh
-    command: php artisan migrate && php artisan serve
+    command: clear && cat .gitpod-init.sh | grep '#'
