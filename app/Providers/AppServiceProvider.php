@@ -21,8 +21,13 @@ class AppServiceProvider extends ServiceProvider
             return false;
         });
 
-        \URL::forceRootUrl(\Config::get('app.url'));
-        if (\Illuminate\Support\Str::contains(\Config::get('app.url'), 'https://')) {
+        $appUrl = \Config::get('app.url');
+
+        if (rtrim($appUrl, '/') != 'http://localhost') {
+            \URL::forceRootUrl($appUrl);
+        }
+
+        if (\Illuminate\Support\Str::contains($appUrl, 'https://')) {
             \URL::forceScheme('https');
         }
     }
