@@ -20,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('absent', function ($attribute, $value, $parameters, $validator) {
             return false;
         });
+
+        \URL::forceRootUrl(\Config::get('app.url'));
+        if (\Illuminate\Support\Str::contains(\Config::get('app.url'), 'https://')) {
+            \URL::forceScheme('https');
+        }
     }
 
     /**
