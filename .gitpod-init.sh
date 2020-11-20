@@ -1,3 +1,4 @@
+##
 ## :::::::::  :::::::::  ::::::::::     :::     :::::::::  :::     :::   ::: 
 ## :+:    :+: :+:    :+: :+:          :+: :+:   :+:    :+: :+:     :+:   :+: 
 ## +:+    +:+ +:+    +:+ +:+         +:+   +:+  +:+    +:+ +:+      +:+ +:+  
@@ -6,7 +7,7 @@
 ## #+#    #+# #+#    #+# #+#        #+#     #+# #+#    #+# #+#        #+#    
 ## #########  ###    ### ########## ###     ### #########  ########## ### 
 ##
-## Welcome to your own personal Breadly gitpod instance
+## Welcome to your own personal Breadly gitpod instance.
 ##
 ## To start the development server type the following command in the terminal:  
 ##
@@ -17,14 +18,12 @@
 ##
 ## Your public URL will be:
 ##
-## http://localhost
+## ${GITPOD_WORKSPACE_URL}
 ##
 mysql -u root -e "create database breadly"
 cp .env.example .env
 sed -i "s|APP_URL=http://localhost|APP_URL=${GITPOD_WORKSPACE_URL}|g" .env
 sed -i "s|APP_URL=https://|APP_URL=https://8000-|g" .env
-sed -i "s|http://localhost|${GITPOD_WORKSPACE_URL}|g" .gitpod-init.sh
-sed -i "s|=https://|https://8000-|g" .gitpod-init.sh
 composer install
 php artisan key:generate
 php artisan migrate --seed

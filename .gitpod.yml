@@ -3,4 +3,4 @@ image:
 
 tasks:
   - init: bash .gitpod-init.sh
-    command: clear && cat .gitpod-init.sh | grep '#'
+    command: clear && cat .gitpod-init.sh | envsubst | sed 's/https:\/\//https:\/\/8000-/g' | grep '#'
