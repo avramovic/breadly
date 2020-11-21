@@ -38,7 +38,7 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function report(Exception $exception)
+    public function report(\Throwable $exception)
     {
         parent::report($exception);
     }
@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
      *
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
+    public function render($request, \Throwable $exception)
     {
         if ($request->route() && stripos(strtolower($request->route()->uri()), 'api/') === 0) {
             return $this->handleApiException($request, $exception);
@@ -60,7 +60,7 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
-    public function handleApiException($request, Exception $exception)
+    public function handleApiException($request, \Throwable $exception)
     {
         \Log::error($exception);
         if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {

@@ -8,8 +8,8 @@ Breadly allows you to perform BREAD operations on your relational database table
 
 ### Features 
 
-* extremely robust & flexible (based on Laravel 5.5)
-* multiple [DB drivers](https://laravel.com/docs/5.5/database#introduction): mysql, postgre, sqlite, ...
+* extremely robust & flexible (based on Laravel 7)
+* multiple [DB drivers](https://laravel.com/docs/7.x/database#introduction): mysql, postgre, sqlite, ...
 * web based admin panel to manage database structure and data (*B*rowse, *R*ead, *E*dit, *A*dd, *D*elete)
 * provides a base platform to integrate your app and your web site
 * simple HTTP API (in JSON format) to use from within your App Inventor apps (with ordinary Web component)
@@ -17,16 +17,21 @@ Breadly allows you to perform BREAD operations on your relational database table
 * file uploads from your app to your server or S3 storage
 * image uploads with automatic resizing
 * file upload limits by file size and/or image dimensions
+* modules system to endlessly extend possibilities
 * ...and a lot more!
 
 ## Server requirements
 
-Since it is based on Laravel, it has pretty much the same [requirements](https://laravel.com/docs/5.5/installation#server-requirements):
+Since it is based on Laravel, it has pretty much the same [requirements](https://laravel.com/docs/7.x/installation#server-requirements):
 
-* PHP >= 7.1.0
+* PHP >= 7.2.0
+* BCMath PHP Extension
+* Ctype PHP Extension
+* Fileinfo PHP extension
+* JSON PHP Extension
+* Mbstring PHP Extension
 * OpenSSL PHP Extension
 * PDO PHP Extension
-* Mbstring PHP Extension
 * Tokenizer PHP Extension
 * XML PHP Extension
 
