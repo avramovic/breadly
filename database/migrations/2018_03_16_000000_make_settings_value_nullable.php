@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRolesTable extends Migration
+class MakeSettingsValueNullable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name')->unique();
-            $table->string('display_name');
-            $table->timestamps();
+        Schema::table('settings', function (Blueprint $table) {
+            $table->text('value')->nullable()->change();
         });
     }
 
@@ -28,6 +25,8 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('roles');
+        Schema::table('settings', function (Blueprint $table) {
+            $table->text('value')->nullable(false)->change();
+        });
     }
 }

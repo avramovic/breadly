@@ -20,4 +20,9 @@ class TinyWebDbWidget extends AbstractWidget
             'image' => voyager_asset('images/widget-backgrounds/03.jpg'),
         ]));
     }
+
+    public function shouldBeDisplayed()
+    {
+        return true;
+    }
 }
