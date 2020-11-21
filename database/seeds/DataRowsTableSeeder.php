@@ -133,6 +133,16 @@ class DataRowsTableSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'order'        => 8,
+                'details'      => [
+                    'upload' => [
+                        'type' => 'image',
+                        'resize' => [
+                            'method' => 'crop',
+                            'width' => 300,
+                            'height' => 300,
+                        ],
+                    ],
+                ],
             ])->save();
         }
 
@@ -351,7 +361,8 @@ class DataRowsTableSeeder extends Seeder
                 'order'        => 9,
             ])->save();
         }
- $dataRow = $this->dataRow($taskDataType, 'id');
+
+        $dataRow = $this->dataRow($taskDataType, 'id');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'number',
@@ -361,8 +372,7 @@ class DataRowsTableSeeder extends Seeder
                 'read'         => 0,
                 'edit'         => 0,
                 'add'          => 0,
-                'delete'       => 0,
-                'details'      => '',
+                'delete'       => 0 ,
                 'order'        => 1,
             ])->save();
         }
@@ -378,12 +388,12 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => "{
-    \"validation\": {
-        \"add\": \"required|string|max:255\",
-        \"edit\": \"string|max:255\"
-    }
-}",
+                'details'      => [
+                    'validation' => [
+                        'add' => 'required|string|max:255',
+                        'edit' => 'string|max:255',
+                    ]
+                ],
                 'order'        => 2,
             ])->save();
         }
@@ -399,7 +409,6 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'details'      => '',
                 'order'        => 6,
             ])->save();
         }
@@ -415,7 +424,6 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'details'      => '',
                 'order'        => 7,
             ])->save();
         }
@@ -431,16 +439,16 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => "{
-    \"upload\": {
-        \"type\": \"image\",
-        \"resize\": {
-            \"method\": \"crop\",
-            \"width\": 100,
-            \"height\": 100
-        }
-    }
-}",
+                'details'      => [
+                    'upload' => [
+                        'type' => 'image',
+                        'resize' => [
+                            'method' => 'crop',
+                            'width' => 100,
+                            'height' => 100
+                        ]
+                    ],
+                ],
                 'order'        => 4,
             ])->save();
         }
@@ -456,12 +464,13 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'details'      => "{
-    \"validation\": {
-        \"add\": \"absent\",
-        \"edit\": \"boolean\"
-    }
-}",                'order'        => 3,
+                'details'      => [
+                    'validation' => [
+                        'add' => 'absent',
+                        'edit' => 'boolean'
+                    ]
+                ],
+                'order'        => 3,
             ])->save();
         }
 
@@ -476,7 +485,7 @@ class DataRowsTableSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 0,
-                'details'      => '{ "validation": "absent" }',
+                'details'      => ['validation' => 'absent'],
                 'order'        => 5,
             ])->save();
         }
