@@ -17,3 +17,4 @@ modules/*
 !**/.gitkeep
 .phpstorm.meta.php
 _ide_helper.php
+.version

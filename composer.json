@@ -72,7 +72,8 @@
             "@php artisan cache:clear",
             "@php artisan route:clear",
             "@php artisan config:clear",
-            "@php artisan view:clear"
+            "@php artisan view:clear",
+            "@git describe --tags --abbrev=0  > .version"
         ]
     },
     "config": {
