@@ -20,6 +20,8 @@
 ##
 ## ${GITPOD_WORKSPACE_URL}
 ##
+echo Please wait...
+sleep 30
 mysql -u root -e "create database breadly"
 cp .env.example .env
 sed -i "s|APP_URL=http://localhost|APP_URL=${GITPOD_WORKSPACE_URL}|g" .env
