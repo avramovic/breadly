@@ -92,7 +92,8 @@ return [
     'database' => [
         'tables' => [
             'hidden' => ['migrations', 'data_rows', 'data_types', 'menu_items', 'password_resets', 'permission_role',
-                'settings', 'permissions', 'permission_groups', 'translations', 'menus', 'tinywebdb', 'modules', 'sessions'],
+                'settings', 'permissions', 'permission_groups', 'translations', 'menus', 'tinywebdb', 'modules', 'sessions',
+                'users', 'roles', 'user_roles'],
         ],
     ],
 
